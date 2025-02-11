@@ -25,7 +25,7 @@ MLX_LIB = libmlx_Linux.a
 all:$(TARGET)
 
 $(TARGET): $(OBJS)
-	$(MAKE) -C$(LIBDIR) all
+	$(MAKE) -C$(LIBDIR) printf
 	$(MAKE) -C$(MLXDIR) all
 	$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(LIBDIR) -lft -L$(MLXDIR) -lmlx -lX11 -lXext -lm
 	ln -s $(MLXDIR)/$(MLX_LIB) .

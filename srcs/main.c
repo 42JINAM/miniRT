@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "../libft/ft_printf/ft_printf.h"
 
 int main(void)
 {
-  printf("hello\n");
+  ft_printf("hello");
   return(0);
 }
