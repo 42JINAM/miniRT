@@ -6,14 +6,18 @@
 /*   By: jinam <jinam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:00:32 by jinam             #+#    #+#             */
-/*   Updated: 2025/02/11 17:00:48 by jinam            ###   ########.fr       */
+/*   Updated: 2025/02/20 18:32:25 by jinam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
 #include "../libft/ft_printf/ft_printf.h"
 
-int main(void)
+int	main(void)
 {
-  ft_printf("hello");
-  return(0);
+	void	*mlx;
+
+	mlx = mlx_init();
+	ft_printf("hello");
+	return (0);
 }
