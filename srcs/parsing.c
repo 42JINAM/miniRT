@@ -35,7 +35,7 @@ int	open_file(const char *rt_file)
 	return (fd);
 }
 
-int	parsing(const char *rt_file, t_content *content)
+int	parsing(const char *rt_file, t_scene *scene)
 {
 	int			fd;
 	int			res;
@@ -46,5 +46,6 @@ int	parsing(const char *rt_file, t_content *content)
 	fd = open_file(rt_file);
 	if (fd < 0)
 		return (ERR_FILE_EXTENSION);
-
+	
+	close(fd);
 }
