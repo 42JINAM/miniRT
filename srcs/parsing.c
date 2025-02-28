@@ -6,46 +6,70 @@
 /*   By: jinam <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:15:57 by jinam             #+#    #+#             */
-/*   Updated: 2025/02/20 21:24:35 by jinam            ###   ########.fr       */
+/*   Updated: 2025/02/28 18:09:02 by jinam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-#include "../libft/get_next_line/get_next_line_bonus.h"
-#include "../libft/libft/libft.h"
+#include "miniRT_enum.h"
 #include <fcntl.h>
 
-int	validate_file(const char *rt_file)
+int	parsing_str(char *str, t_scene *scene)
 {
-	const int	file_len = ft_strlen(rt_file);
+	const char	**tokens = (const char **)ft_split(str, ' ');
+	const int	type = check_type((char *)tokens[0]);
+	int			res;
 
-	return ((file_len > 3) || !ft_strncmp(&rt_file[file_len -3], ".rt", 3));
+	if (type == ELEMENT_AMBIENT)
+		res = parse_ambient(tokens, &scene->ambient);
+	else if (type == ELEMENT_CAMERA)
+		res = parse_camera(tokens, &scene->camera);
+	else if (type == ELEMENT_LIGHT)
+		res = parse_light(tokens, &scene->light);
+	else if (type != ELEMENT_UNKNOWN)
+		res = parse_objects(tokens, &scene->objs, type);
+	else
+		res = (ERR_FILE_NOT_AVAILABLE);
+	ft_split_free((char **)tokens);
+	free(str);
+	return (res);
 }
 
-int	open_file(const char *rt_file)
+int	read_file(int fd, t_scene *scene)
 {
-	char	*file_name;
-	int		fd;
+	char	*str;
+	int		res;
 
-	file_name = ft_strjoin(RTFILES_DIR, rt_file);
-	if (!file_name)
-		return (ERR_MEMORY_ALLOC);
-	fd = open(file_name, O_RDONLY);
-	free(file_name);
-	return (fd);
+	while (1)
+	{
+		str = get_next_line(fd);
+		if (!str)
+			break ;
+		if (str[0] == '/' || str[0] == '\n')
+		{
+			free(str);
+			continue ;
+		}
+		str[ft_strlen(str) - 1] = 0;
+		res = parsing_str(str, scene);
+		if (res != ERR_SUCCESS)
+			return (res);
+	}
+	return (scene->parsing_state);
 }
 
 int	parsing(const char *rt_file, t_scene *scene)
 {
 	int			fd;
 	int			res;
-	char		*str;
 
 	if (!validate_file(rt_file))
 		return (ERR_FILE_EXTENSION);
 	fd = open_file(rt_file);
 	if (fd < 0)
 		return (ERR_FILE_EXTENSION);
-	
+	res = read_file(fd, scene);
+	/* if res != PARSE_COMPLETE */
 	close(fd);
+	return (res);
 }
