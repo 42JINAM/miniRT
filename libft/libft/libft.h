@@ -6,7 +6,7 @@
 /*   By: jinam <jinam@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 15:15:02 by jinam             #+#    #+#             */
-/*   Updated: 2022/11/10 18:16:08 by jinam            ###   ########.fr       */
+/*   Updated: 2025/02/28 16:41:31 by jinam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,7 @@ int		ft_temp_print(t_temp_str *temp_str, int fd);
 long	ft_atol_base(const char *str, char *base, int *flag);
 
 void	*ft_malloc(size_t size);
+
+int		ft_atof(const char *str);
 
 #endif
