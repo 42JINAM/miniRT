@@ -27,7 +27,9 @@ int	parsing_str(char *str, t_scene *scene)
 	else if (type == ELEMENT_LIGHT)
 		res = parse_light(tokens, &scene->light);
 	else if (type != ELEMENT_UNKNOWN)
+	{
 		res = parse_objects(tokens, &scene->objs, type);
+	}
 	else
 		res = (ERR_FILE_NOT_AVAILABLE);
 	ft_split_free((char **)tokens);
@@ -51,11 +53,20 @@ int	read_file(int fd, t_scene *scene)
 			continue ;
 		}
 		str[ft_strlen(str) - 1] = 0;
+		ft_printf("%s\n", str);
 		res = parsing_str(str, scene);
 		if (res != ERR_SUCCESS)
 			return (res);
 	}
 	return (scene->parsing_state);
+}
+
+int	print_err(int err)
+{
+	if (err == ERR_FILE_EXTENSION)
+		ft_printf("WRONG FORMAT ! ");
+	else if (err == ERR_FILE_NOT_AVAILABLE)
+		ft_printf("FILE NOT AVAILABLE");
 }
 
 int	parsing(const char *rt_file, t_scene *scene)
@@ -70,6 +81,7 @@ int	parsing(const char *rt_file, t_scene *scene)
 		return (ERR_FILE_EXTENSION);
 	res = read_file(fd, scene);
 	/* if res != PARSE_COMPLETE */
+	print_err(res);
 	close(fd);
 	return (res);
 }

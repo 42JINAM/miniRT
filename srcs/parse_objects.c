@@ -12,13 +12,16 @@
 
 #include "miniRT.h"
 #include "miniRT_enum.h"
+#include <stdio.h>
 
 t_object	*get_last_obj(t_object *obj)
 {
 	t_object	*curr;
 
 	curr = obj;
-	while (! curr->next)
+	if (curr == NULL)
+		return (curr);
+	while (curr->next)
 		curr = curr->next;
 	return (curr);
 }
@@ -50,7 +53,10 @@ int	parse_object_content(int type, const char **tokens, t_object *obj)
 	if (parse_point(tokens[1], &obj->coordinates) != ERR_SUCCESS)
 		return (ERR_FILE_NOT_AVAILABLE);
 	if (type == OBJ_SPHERE)
+	{
 		obj->diameter = ft_atof(tokens[2]);
+		printf("IN SPHERE : diameter : %f\n", obj->diameter);
+	}
 	else if (type == OBJ_PLANE || type == OBJ_CYLINDER)
 	{
 		if (parse_normal_vector(tokens[2], &obj->vector) != ERR_SUCCESS)
@@ -71,20 +77,23 @@ int	parse_object_content(int type, const char **tokens, t_object *obj)
 	return (ERR_SUCCESS);
 }
 
-int	parse_objects(const char **tokens, t_object *obj, int type)
+int	parse_objects(const char **tokens, t_object **obj, int type)
 {
-	t_object	*curr;
+	t_object	*object;
 	const int	len = ft_array_len(tokens);
 
-	curr = get_last_obj(obj);
 	if ((type == OBJ_SPHERE || type == OBJ_PLANE) && (len != 4))
 		return (ERR_FILE_NOT_AVAILABLE);
 	if (type == OBJ_CYLINDER && len != 6)
 		return (ERR_FILE_NOT_AVAILABLE);
-	curr->next = ft_calloc(sizeof(t_object), 1);
-	if (!curr->next)
+	object = ft_calloc(sizeof(t_object), 1);
+	if (!object)
 		return (ERR_MEMORY_ALLOC);
-	if (parse_object_content(type, tokens, obj) != ERR_SUCCESS)
+	if (parse_object_content(type, tokens, object) != ERR_SUCCESS)
 		return (ERR_FILE_NOT_AVAILABLE);
+	if (*obj == NULL)
+		*obj = object;
+	else
+		get_last_obj(*obj)->next = object;
 	return (ERR_SUCCESS);
 }

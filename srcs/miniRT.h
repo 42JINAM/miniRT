@@ -13,9 +13,10 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "miniRT_enum.h"
+# include "../libft/ft_printf/ft_printf.h"
 # include "../libft/get_next_line/get_next_line_bonus.h"
 # include "../libft/libft/libft.h"
+# include "miniRT_enum.h"
 
 typedef struct s_coordinates
 {
@@ -55,13 +56,13 @@ typedef struct s_light
 
 typedef struct s_object
 {
-	int					id;
-	t_coordinates		coordinates;
-	float				diameter;
-	t_colors			rgb;
-	t_coordinates		vector;
-	float				height;
-	struct s_object		*next;
+	int				id;
+	t_coordinates	coordinates;
+	float			diameter;
+	t_colors		rgb;
+	t_coordinates	vector;
+	float			height;
+	struct s_object	*next;
 }	t_object;
 
 typedef struct s_scene
@@ -74,6 +75,8 @@ typedef struct s_scene
 }	t_scene;
 
 /*parsing*/
+
+int		parsing(const char *rt_file, t_scene *scene);
 int		open_file(const char *rt_file);
 int		read_file(int fd, t_scene *scene);
 int		paring_str(char *str, t_scene scene);
@@ -89,4 +92,6 @@ int		parse_normal_vector(const char *str, t_coordinates *vec);
 int		parse_ambient(const char **tokens, t_ambient *ambient);
 int		parse_camera(const char **tokens, t_camera *camera);
 int		parse_light(const char **tokens, t_light *light);
+int		parse_objects(const char **tokens, t_object **obj, int type);
+int		print_err(int err);
 #endif

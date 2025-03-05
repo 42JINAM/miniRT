@@ -20,18 +20,17 @@ int	valide_color(int color)
 
 int	parse_colors(const char *str, t_colors *color)
 {
-	char	**tokens;
+	const char	**tokens = (const char **)ft_split(str, ',');
 
-	tokens = ft_split(str, ',');
 	if (ft_array_len(tokens) != 3)
 	{
-		ft_split_free(tokens);
+		ft_split_free((char **)tokens);
 		return (ERR_FILE_NOT_AVAILABLE);
 	}
 	color->r = ft_atoi(tokens[0]);
 	color->g = ft_atoi(tokens[1]);
 	color->b = ft_atoi(tokens[2]);
-	ft_split_free(tokens);
+	ft_split_free((char **)tokens);
 	if (!valide_color(color->r))
 		return (ERR_FILE_NOT_AVAILABLE);
 	if (!valide_color(color->g))
