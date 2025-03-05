@@ -35,13 +35,13 @@ typedef enum e_eof
 
 typedef struct s_gnl_list
 {
-	int				fd;
-	char			buff[BUFFER_SIZE];
-	ssize_t			rbytes;
-	size_t			eol;
-	size_t			last_len;
-	size_t			new_len;
-	struct s_list	*next;
+	int					fd;
+	char				buff[BUFFER_SIZE];
+	ssize_t				rbytes;
+	size_t				eol;
+	size_t				last_len;
+	size_t				new_len;
+	struct s_gnl_list	*next;
 }					t_gnl_list;
 
 int		_gnl_find_node(t_gnl_list **head, t_gnl_list **node, int fd);

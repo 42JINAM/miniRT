@@ -52,7 +52,8 @@ LIBFT_FILES =	ft___lst_bonus \
 				ft_string_search \
 				ft_string_temp \
 				ft_malloc \
-				ft_string_temp_function
+				ft_string_temp_function \
+				ft_atof
 
 PRINTF_FILES = 	_printf_c \
 				_printf_d \
